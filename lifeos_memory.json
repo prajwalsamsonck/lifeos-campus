@@ -1,0 +1,240 @@
+[
+  {
+    "timestamp": "2026-04-28T22:41:02.063448",
+    "mode": "sleep",
+    "dnd": true,
+    "sound": "silent",
+    "notif_score_threshold": 9,
+    "context": {
+      "hour": 22,
+      "day": "Tuesday",
+      "location_zone": "hostel",
+      "calendar_events": []
+    }
+  },
+  {
+    "timestamp": "2026-04-28T23:00:45.497872",
+    "event": "digest_sent",
+    "stats": {
+      "total_held": 13,
+      "total_passed": 7,
+      "held_by_app": {
+        "instagram": 3,
+        "swiggy": 1,
+        "whatsapp": 3,
+        "youtube": 2,
+        "zomato": 1,
+        "netflix": 1,
+        "snapchat": 1,
+        "paytm": 1
+      }
+    }
+  },
+  {
+    "event_type": "commute_alert",
+    "data": {
+      "should_alert": true,
+      "event_name": "DBMS Lab",
+      "depart_in_minutes": 10,
+      "travel_minutes": 25,
+      "location": "Room 304",
+      "bus_suggestion": "Bus 401"
+    },
+    "timestamp": "2026-04-29T00:03:00.971509"
+  },
+  {
+    "event_type": "exam_mode",
+    "data": {
+      "exam_count": 3,
+      "is_crunch_week": true,
+      "detected": [
+        "DBMS End Sem Exam",
+        "DSA Quiz",
+        "Mini Project Viva"
+      ]
+    },
+    "timestamp": "2026-04-29T00:03:02.259063"
+  },
+  {
+    "event_type": "mode_switch",
+    "data": {
+      "mode": "commute",
+      "simulated": true,
+      "hour": 23,
+      "zone": "demo"
+    },
+    "timestamp": "2026-05-02T23:03:55.695746"
+  },
+  {
+    "event_type": "commute_alert",
+    "data": {
+      "should_alert": true,
+      "event_name": "DBMS Lab",
+      "depart_in_minutes": 10,
+      "travel_minutes": 25,
+      "location": "Room 304",
+      "bus_suggestion": "Bus 401"
+    },
+    "timestamp": "2026-05-02T23:04:02.269610"
+  },
+  {
+    "event_type": "mode_switch",
+    "data": {
+      "mode": "class",
+      "simulated": true,
+      "hour": 23,
+      "zone": "demo"
+    },
+    "timestamp": "2026-05-02T23:04:06.281924"
+  },
+  {
+    "timestamp": "2026-05-02T23:04:20.919623",
+    "event": "digest_sent",
+    "stats": {
+      "total_held": 13,
+      "total_passed": 7,
+      "held_by_app": {
+        "instagram": 3,
+        "swiggy": 1,
+        "whatsapp": 3,
+        "youtube": 2,
+        "zomato": 1,
+        "netflix": 1,
+        "snapchat": 1,
+        "paytm": 1
+      }
+    }
+  },
+  {
+    "timestamp": "2026-05-02T23:04:30.233702",
+    "event": "digest_sent",
+    "stats": {
+      "total_held": 0,
+      "total_passed": 0,
+      "held_by_app": {}
+    }
+  },
+  {
+    "event_type": "mode_switch",
+    "data": {
+      "mode": "focus",
+      "simulated": true,
+      "hour": 23,
+      "zone": "demo"
+    },
+    "timestamp": "2026-05-02T23:04:34.235385"
+  },
+  {
+    "event_type": "exam_mode",
+    "data": {
+      "exam_count": 3,
+      "is_crunch_week": true,
+      "detected": [
+        "DBMS End Sem Exam",
+        "DSA Quiz",
+        "Mini Project Viva"
+      ]
+    },
+    "timestamp": "2026-05-02T23:04:39.697818"
+  },
+  {
+    "event_type": "override",
+    "data": {
+      "mode": "hostel",
+      "source": "telegram_command",
+      "timestamp": "2026-05-02T23:04:48.705417"
+    },
+    "timestamp": "2026-05-02T23:04:48.705417"
+  },
+  {
+    "event_type": "mode_switch",
+    "data": {
+      "mode": "commute",
+      "simulated": true,
+      "hour": 23,
+      "zone": "demo"
+    },
+    "timestamp": "2026-05-02T23:10:44.238594"
+  },
+  {
+    "event_type": "commute_alert",
+    "data": {
+      "should_alert": true,
+      "event_name": "DBMS Lab",
+      "depart_in_minutes": 10,
+      "travel_minutes": 25,
+      "location": "Room 304",
+      "bus_suggestion": "Bus 401"
+    },
+    "timestamp": "2026-05-02T23:10:50.672393"
+  },
+  {
+    "event_type": "mode_switch",
+    "data": {
+      "mode": "class",
+      "simulated": true,
+      "hour": 23,
+      "zone": "demo"
+    },
+    "timestamp": "2026-05-02T23:10:54.674381"
+  },
+  {
+    "timestamp": "2026-05-02T23:11:08.890035",
+    "event": "digest_sent",
+    "stats": {
+      "total_held": 13,
+      "total_passed": 7,
+      "held_by_app": {
+        "instagram": 3,
+        "swiggy": 1,
+        "whatsapp": 3,
+        "youtube": 2,
+        "zomato": 1,
+        "netflix": 1,
+        "snapchat": 1,
+        "paytm": 1
+      }
+    }
+  },
+  {
+    "timestamp": "2026-05-02T23:11:18.085038",
+    "event": "digest_sent",
+    "stats": {
+      "total_held": 0,
+      "total_passed": 0,
+      "held_by_app": {}
+    }
+  },
+  {
+    "event_type": "mode_switch",
+    "data": {
+      "mode": "focus",
+      "simulated": true,
+      "hour": 23,
+      "zone": "demo"
+    },
+    "timestamp": "2026-05-02T23:11:22.087575"
+  },
+  {
+    "event_type": "exam_mode",
+    "data": {
+      "exam_count": 3,
+      "is_crunch_week": true,
+      "detected": [
+        "DBMS End Sem Exam",
+        "DSA Quiz",
+        "Mini Project Viva"
+      ]
+    },
+    "timestamp": "2026-05-02T23:11:27.509082"
+  },
+  {
+    "event_type": "override",
+    "data": {
+      "mode": "hostel",
+      "source": "telegram_command",
+      "timestamp": "2026-05-02T23:11:36.520814"
+    },
+    "timestamp": "2026-05-02T23:11:36.520814"
+  }
+]

@@ -1,0 +1,359 @@
+[
+  {
+    "mode": "commute",
+    "hour": 7,
+    "day": "Monday",
+    "zone": "transit",
+    "timestamp": "2026-04-26T07:02:59.642591"
+  },
+  {
+    "mode": "class",
+    "hour": 8,
+    "day": "Monday",
+    "zone": "campus",
+    "timestamp": "2026-04-26T08:02:59.642591"
+  },
+  {
+    "mode": "focus",
+    "hour": 9,
+    "day": "Monday",
+    "zone": "campus",
+    "timestamp": "2026-04-26T09:02:59.642591"
+  },
+  {
+    "mode": "class",
+    "hour": 10,
+    "day": "Monday",
+    "zone": "campus",
+    "timestamp": "2026-04-26T10:02:59.642591"
+  },
+  {
+    "mode": "focus",
+    "hour": 11,
+    "day": "Monday",
+    "zone": "campus",
+    "timestamp": "2026-04-26T11:02:59.642591"
+  },
+  {
+    "mode": "class",
+    "hour": 12,
+    "day": "Monday",
+    "zone": "campus",
+    "timestamp": "2026-04-26T12:02:59.642591"
+  },
+  {
+    "mode": "focus",
+    "hour": 13,
+    "day": "Monday",
+    "zone": "campus",
+    "timestamp": "2026-04-26T13:02:59.642591"
+  },
+  {
+    "mode": "class",
+    "hour": 14,
+    "day": "Monday",
+    "zone": "campus",
+    "timestamp": "2026-04-26T14:02:59.642591"
+  },
+  {
+    "mode": "focus",
+    "hour": 15,
+    "day": "Monday",
+    "zone": "campus",
+    "timestamp": "2026-04-26T15:02:59.642591"
+  },
+  {
+    "mode": "class",
+    "hour": 16,
+    "day": "Monday",
+    "zone": "campus",
+    "timestamp": "2026-04-26T16:02:59.642591"
+  },
+  {
+    "mode": "focus",
+    "hour": 17,
+    "day": "Monday",
+    "zone": "campus",
+    "timestamp": "2026-04-26T17:02:59.642591"
+  },
+  {
+    "mode": "hostel",
+    "hour": 18,
+    "day": "Monday",
+    "zone": "hostel",
+    "timestamp": "2026-04-26T18:02:59.642591"
+  },
+  {
+    "mode": "hostel",
+    "hour": 19,
+    "day": "Monday",
+    "zone": "hostel",
+    "timestamp": "2026-04-26T19:02:59.642591"
+  },
+  {
+    "mode": "hostel",
+    "hour": 20,
+    "day": "Monday",
+    "zone": "hostel",
+    "timestamp": "2026-04-26T20:02:59.642591"
+  },
+  {
+    "mode": "hostel",
+    "hour": 21,
+    "day": "Monday",
+    "zone": "hostel",
+    "timestamp": "2026-04-26T21:02:59.642591"
+  },
+  {
+    "mode": "sleep",
+    "hour": 22,
+    "day": "Monday",
+    "zone": "hostel",
+    "timestamp": "2026-04-26T22:02:59.642591"
+  },
+  {
+    "mode": "sleep",
+    "hour": 23,
+    "day": "Monday",
+    "zone": "hostel",
+    "timestamp": "2026-04-26T23:02:59.642591"
+  },
+  {
+    "mode": "commute",
+    "hour": 7,
+    "day": "Tuesday",
+    "zone": "transit",
+    "timestamp": "2026-04-27T07:02:59.642591"
+  },
+  {
+    "mode": "class",
+    "hour": 8,
+    "day": "Tuesday",
+    "zone": "campus",
+    "timestamp": "2026-04-27T08:02:59.642591"
+  },
+  {
+    "mode": "focus",
+    "hour": 9,
+    "day": "Tuesday",
+    "zone": "campus",
+    "timestamp": "2026-04-27T09:02:59.642591"
+  },
+  {
+    "mode": "class",
+    "hour": 10,
+    "day": "Tuesday",
+    "zone": "campus",
+    "timestamp": "2026-04-27T10:02:59.642591"
+  },
+  {
+    "mode": "focus",
+    "hour": 11,
+    "day": "Tuesday",
+    "zone": "campus",
+    "timestamp": "2026-04-27T11:02:59.642591"
+  },
+  {
+    "mode": "class",
+    "hour": 12,
+    "day": "Tuesday",
+    "zone": "campus",
+    "timestamp": "2026-04-27T12:02:59.642591"
+  },
+  {
+    "mode": "focus",
+    "hour": 13,
+    "day": "Tuesday",
+    "zone": "campus",
+    "timestamp": "2026-04-27T13:02:59.642591"
+  },
+  {
+    "mode": "class",
+    "hour": 14,
+    "day": "Tuesday",
+    "zone": "campus",
+    "timestamp": "2026-04-27T14:02:59.642591"
+  },
+  {
+    "mode": "focus",
+    "hour": 15,
+    "day": "Tuesday",
+    "zone": "campus",
+    "timestamp": "2026-04-27T15:02:59.642591"
+  },
+  {
+    "mode": "class",
+    "hour": 16,
+    "day": "Tuesday",
+    "zone": "campus",
+    "timestamp": "2026-04-27T16:02:59.642591"
+  },
+  {
+    "mode": "focus",
+    "hour": 17,
+    "day": "Tuesday",
+    "zone": "campus",
+    "timestamp": "2026-04-27T17:02:59.642591"
+  },
+  {
+    "mode": "hostel",
+    "hour": 18,
+    "day": "Tuesday",
+    "zone": "hostel",
+    "timestamp": "2026-04-27T18:02:59.642591"
+  },
+  {
+    "mode": "hostel",
+    "hour": 19,
+    "day": "Tuesday",
+    "zone": "hostel",
+    "timestamp": "2026-04-27T19:02:59.642591"
+  },
+  {
+    "mode": "hostel",
+    "hour": 20,
+    "day": "Tuesday",
+    "zone": "hostel",
+    "timestamp": "2026-04-27T20:02:59.642591"
+  },
+  {
+    "mode": "hostel",
+    "hour": 21,
+    "day": "Tuesday",
+    "zone": "hostel",
+    "timestamp": "2026-04-27T21:02:59.642591"
+  },
+  {
+    "mode": "sleep",
+    "hour": 22,
+    "day": "Tuesday",
+    "zone": "hostel",
+    "timestamp": "2026-04-27T22:02:59.642591"
+  },
+  {
+    "mode": "sleep",
+    "hour": 23,
+    "day": "Tuesday",
+    "zone": "hostel",
+    "timestamp": "2026-04-27T23:02:59.642591"
+  },
+  {
+    "mode": "commute",
+    "hour": 7,
+    "day": "Wednesday",
+    "zone": "transit",
+    "timestamp": "2026-04-28T07:02:59.642591"
+  },
+  {
+    "mode": "class",
+    "hour": 8,
+    "day": "Wednesday",
+    "zone": "campus",
+    "timestamp": "2026-04-28T08:02:59.642591"
+  },
+  {
+    "mode": "focus",
+    "hour": 9,
+    "day": "Wednesday",
+    "zone": "campus",
+    "timestamp": "2026-04-28T09:02:59.642591"
+  },
+  {
+    "mode": "class",
+    "hour": 10,
+    "day": "Wednesday",
+    "zone": "campus",
+    "timestamp": "2026-04-28T10:02:59.642591"
+  },
+  {
+    "mode": "focus",
+    "hour": 11,
+    "day": "Wednesday",
+    "zone": "campus",
+    "timestamp": "2026-04-28T11:02:59.642591"
+  },
+  {
+    "mode": "class",
+    "hour": 12,
+    "day": "Wednesday",
+    "zone": "campus",
+    "timestamp": "2026-04-28T12:02:59.642591"
+  },
+  {
+    "mode": "focus",
+    "hour": 13,
+    "day": "Wednesday",
+    "zone": "campus",
+    "timestamp": "2026-04-28T13:02:59.642591"
+  },
+  {
+    "mode": "class",
+    "hour": 14,
+    "day": "Wednesday",
+    "zone": "campus",
+    "timestamp": "2026-04-28T14:02:59.642591"
+  },
+  {
+    "mode": "focus",
+    "hour": 15,
+    "day": "Wednesday",
+    "zone": "campus",
+    "timestamp": "2026-04-28T15:02:59.642591"
+  },
+  {
+    "mode": "class",
+    "hour": 16,
+    "day": "Wednesday",
+    "zone": "campus",
+    "timestamp": "2026-04-28T16:02:59.642591"
+  },
+  {
+    "mode": "focus",
+    "hour": 17,
+    "day": "Wednesday",
+    "zone": "campus",
+    "timestamp": "2026-04-28T17:02:59.642591"
+  },
+  {
+    "mode": "hostel",
+    "hour": 18,
+    "day": "Wednesday",
+    "zone": "hostel",
+    "timestamp": "2026-04-28T18:02:59.642591"
+  },
+  {
+    "mode": "hostel",
+    "hour": 19,
+    "day": "Wednesday",
+    "zone": "hostel",
+    "timestamp": "2026-04-28T19:02:59.642591"
+  },
+  {
+    "mode": "hostel",
+    "hour": 20,
+    "day": "Wednesday",
+    "zone": "hostel",
+    "timestamp": "2026-04-28T20:02:59.642591"
+  },
+  {
+    "mode": "hostel",
+    "hour": 21,
+    "day": "Wednesday",
+    "zone": "hostel",
+    "timestamp": "2026-04-28T21:02:59.642591"
+  },
+  {
+    "mode": "sleep",
+    "hour": 22,
+    "day": "Wednesday",
+    "zone": "hostel",
+    "timestamp": "2026-04-28T22:02:59.642591"
+  },
+  {
+    "mode": "sleep",
+    "hour": 23,
+    "day": "Wednesday",
+    "zone": "hostel",
+    "timestamp": "2026-04-28T23:02:59.642591"
+  }
+]

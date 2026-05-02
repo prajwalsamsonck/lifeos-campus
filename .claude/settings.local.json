@@ -1,0 +1,27 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(pip install *)",
+      "Bash(python -c \"from modes import MODES, get_mode; from context import get_context; from memory import log_mode_switch; from telegram_bot import send_mode_alert; print\\('All imports OK'\\); ctx = get_context\\(\\); mode = get_mode\\(ctx\\); print\\(f'Current mode: {mode.name} | zone: {ctx[\\\\\"location_zone\\\\\"]} | hour: {ctx[\\\\\"hour\\\\\"]} | day: {ctx[\\\\\"day\\\\\"]}'\\)\")",
+      "Bash(start notepad *)",
+      "Bash(python agent.py)",
+      "Bash(python mock_notifications.py)",
+      "Bash(python -X utf8 mock_notifications.py)",
+      "Bash(python -c \"import json; data=json.load\\(open\\('lifeos_memory.json'\\)\\); print\\(json.dumps\\(data[-1], indent=2\\)\\)\")",
+      "Bash(python -X utf8 phase3_demo.py)",
+      "Bash(python -c ' *)",
+      "Bash(python dashboard.py)",
+      "Bash(curl -s http://localhost:5000/api/status)",
+      "Bash(curl -s http://localhost:5000/)",
+      "Bash(python device_setup.py)",
+      "Bash(pkill -f dashboard.py)",
+      "Bash(python -c \"import sys,json; d=json.load\\(sys.stdin\\); print\\('current_mode:', d['current_mode']\\); print\\('pattern_days:', d['pattern_days']\\); print\\('timestamp:', d['timestamp']\\)\")",
+      "Bash(python -c \"import sys; html=sys.stdin.read\\(\\); print\\('socket.io in html:', 'socket.io' in html\\); print\\('SocketIO refs:', html.count\\('socket.io'\\)\\)\")",
+      "Bash(curl -s http://localhost:5000/ -o dash_test.html)",
+      "Bash(netstat -ano)",
+      "Bash(taskkill //F //PID 32772 //PID 38352)",
+      "Bash(python demo_runner.py)",
+      "Bash(python twin_demo.py)"
+    ]
+  }
+}
