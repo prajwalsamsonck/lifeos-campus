@@ -21,7 +21,29 @@
       "Bash(netstat -ano)",
       "Bash(taskkill //F //PID 32772 //PID 38352)",
       "Bash(python demo_runner.py)",
-      "Bash(python twin_demo.py)"
+      "Bash(python twin_demo.py)",
+      "Bash(openclaw --version)",
+      "Bash(openclaw onboard *)",
+      "Bash(echo \"EXIT_CODE:$?\")",
+      "Bash(openclaw channel *)",
+      "Bash(openclaw channels *)",
+      "Bash(openclaw gateway *)",
+      "Bash(openclaw health *)",
+      "Bash(venv/Scripts/python.exe openclaw_bridge.py)",
+      "Bash(/c/Users/jyoti/AppData/Local/Programs/Python/Python312/python.exe --version)",
+      "Bash(py --version)",
+      "Bash(python3 openclaw_bridge.py)",
+      "Bash(python3 openclaw_bridge.py --tick)",
+      "Bash(py -3 --version)",
+      "Bash(py -3 -c \"import dotenv; print\\('dotenv ok'\\)\")",
+      "Bash(py *)",
+      "Bash(/c/Users/jyoti/AppData/Local/Programs/Python/Python311/python.exe *)",
+      "Bash(echo \"EXIT:$?\")",
+      "Bash(openclaw --help)",
+      "Bash(openclaw config *)",
+      "Bash(openclaw agents *)",
+      "Bash(python3 -c \"import json,sys; d=json.load\\(sys.stdin\\); print\\(json.dumps\\(d.get\\('agents',{}\\), indent=2\\)\\)\")",
+      "Bash(git -C \"C:/Users/jyoti/OneDrive/Desktop/lifeos-campus\" status --short)"
     ]
   }
 }

@@ -236,5 +236,196 @@
       "timestamp": "2026-05-02T23:11:36.520814"
     },
     "timestamp": "2026-05-02T23:11:36.520814"
+  },
+  {
+    "event_type": "mode_switch",
+    "data": {
+      "mode": "commute",
+      "simulated": true,
+      "hour": 13,
+      "zone": "demo"
+    },
+    "timestamp": "2026-05-05T13:42:42.412275"
+  },
+  {
+    "event_type": "commute_alert",
+    "data": {
+      "should_alert": true,
+      "event_name": "DBMS Lab",
+      "depart_in_minutes": 10,
+      "travel_minutes": 25,
+      "location": "Room 304",
+      "bus_suggestion": "Bus 401"
+    },
+    "timestamp": "2026-05-05T13:42:52.021619"
+  },
+  {
+    "event_type": "mode_switch",
+    "data": {
+      "mode": "class",
+      "simulated": true,
+      "hour": 13,
+      "zone": "demo"
+    },
+    "timestamp": "2026-05-05T13:42:56.026194"
+  },
+  {
+    "timestamp": "2026-05-05T13:43:23.983554",
+    "event": "digest_sent",
+    "stats": {
+      "total_held": 13,
+      "total_passed": 7,
+      "held_by_app": {
+        "instagram": 3,
+        "swiggy": 1,
+        "whatsapp": 3,
+        "youtube": 2,
+        "zomato": 1,
+        "netflix": 1,
+        "snapchat": 1,
+        "paytm": 1
+      }
+    }
+  },
+  {
+    "timestamp": "2026-05-05T13:43:34.202259",
+    "event": "digest_sent",
+    "stats": {
+      "total_held": 0,
+      "total_passed": 0,
+      "held_by_app": {}
+    }
+  },
+  {
+    "event_type": "mode_switch",
+    "data": {
+      "mode": "focus",
+      "simulated": true,
+      "hour": 13,
+      "zone": "demo"
+    },
+    "timestamp": "2026-05-05T13:43:38.205446"
+  },
+  {
+    "event_type": "exam_mode",
+    "data": {
+      "exam_count": 3,
+      "is_crunch_week": true,
+      "detected": [
+        "DBMS End Sem Exam",
+        "DSA Quiz",
+        "Mini Project Viva"
+      ]
+    },
+    "timestamp": "2026-05-05T13:43:46.492481"
+  },
+  {
+    "event_type": "override",
+    "data": {
+      "mode": "hostel",
+      "source": "telegram_command",
+      "timestamp": "2026-05-05T13:43:55.498471"
+    },
+    "timestamp": "2026-05-05T13:43:55.498471"
+  },
+  {
+    "event_type": "mode_switch",
+    "data": {
+      "mode": "commute",
+      "simulated": true,
+      "hour": 13,
+      "zone": "demo"
+    },
+    "timestamp": "2026-05-05T13:45:19.229561"
+  },
+  {
+    "event_type": "commute_alert",
+    "data": {
+      "should_alert": true,
+      "event_name": "DBMS Lab",
+      "depart_in_minutes": 10,
+      "travel_minutes": 25,
+      "location": "Room 304",
+      "bus_suggestion": "Bus 401"
+    },
+    "timestamp": "2026-05-05T13:45:28.181422"
+  },
+  {
+    "event_type": "mode_switch",
+    "data": {
+      "mode": "class",
+      "simulated": true,
+      "hour": 13,
+      "zone": "demo"
+    },
+    "timestamp": "2026-05-05T13:45:32.188013"
+  },
+  {
+    "timestamp": "2026-05-05T13:45:54.593966",
+    "event": "digest_sent",
+    "stats": {
+      "total_held": 13,
+      "total_passed": 7,
+      "held_by_app": {
+        "instagram": 3,
+        "swiggy": 1,
+        "whatsapp": 3,
+        "youtube": 2,
+        "zomato": 1,
+        "netflix": 1,
+        "snapchat": 1,
+        "paytm": 1
+      }
+    }
+  },
+  {
+    "timestamp": "2026-05-05T13:46:04.838781",
+    "event": "digest_sent",
+    "stats": {
+      "total_held": 0,
+      "total_passed": 0,
+      "held_by_app": {}
+    }
+  },
+  {
+    "event_type": "mode_switch",
+    "data": {
+      "mode": "focus",
+      "simulated": true,
+      "hour": 13,
+      "zone": "demo"
+    },
+    "timestamp": "2026-05-05T13:46:08.843436"
+  },
+  {
+    "event_type": "exam_mode",
+    "data": {
+      "exam_count": 3,
+      "is_crunch_week": true,
+      "detected": [
+        "DBMS End Sem Exam",
+        "DSA Quiz",
+        "Mini Project Viva"
+      ]
+    },
+    "timestamp": "2026-05-05T13:46:17.159275"
+  },
+  {
+    "event_type": "override",
+    "data": {
+      "mode": "hostel",
+      "source": "telegram_command",
+      "timestamp": "2026-05-05T13:46:26.169656"
+    },
+    "timestamp": "2026-05-05T13:46:26.169656"
+  },
+  {
+    "event_type": "override",
+    "data": {
+      "mode": "focus",
+      "source": "openclaw_command",
+      "timestamp": "2026-05-05T14:41:42.310374"
+    },
+    "timestamp": "2026-05-05T14:41:42.310374"
   }
 ]

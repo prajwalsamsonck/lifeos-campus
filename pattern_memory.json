@@ -355,5 +355,26 @@
     "day": "Wednesday",
     "zone": "hostel",
     "timestamp": "2026-04-28T23:02:59.642591"
+  },
+  {
+    "mode": "focus",
+    "hour": 14,
+    "day": "Tuesday",
+    "zone": "campus",
+    "timestamp": "2026-05-05T14:41:19.503580"
+  },
+  {
+    "mode": "focus",
+    "hour": 14,
+    "day": "Tuesday",
+    "zone": "campus",
+    "timestamp": "2026-05-05T14:41:19.505593"
+  },
+  {
+    "mode": "focus",
+    "hour": 14,
+    "day": "Tuesday",
+    "zone": "campus",
+    "timestamp": "2026-05-05T14:41:24.759388"
   }
 ]

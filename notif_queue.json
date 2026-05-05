@@ -1,4 +1,14 @@
 {
   "held": [],
-  "passed_through": []
+  "passed_through": [
+    {
+      "sender": "mom",
+      "app": "whatsapp",
+      "message_preview": "Beta kha liya?",
+      "timestamp": "2026-05-05T14:41:30.328261",
+      "score": 10,
+      "tier": "tier1",
+      "queued_at": "2026-05-05T14:41:30.328261"
+    }
+  ]
 }
