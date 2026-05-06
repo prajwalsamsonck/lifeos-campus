@@ -1,14 +1,64 @@
 import json
+import threading
 from datetime import datetime
 from pathlib import Path
 
-from flask import Flask, jsonify
+from flask import Flask, jsonify, redirect
 from flask_socketio import SocketIO
 from digital_twin import DigitalTwin
 
 app = Flask(__name__)
 socketio = SocketIO(app, cors_allowed_origins="*", async_mode="threading")
 BASE_DIR = Path(__file__).parent
+
+_demo_lock = threading.Lock()
+_demo_active = False
+
+_DEMO_OVERLAY: dict = {
+    "current_mode": "focus",
+    "held_count": 7,
+    "passed_count": 3,
+    "top_held_app": "Instagram",
+    "pattern_days": 3,
+    "last_event": "Exam detected → Focus Mode activated",
+    "ai_decision": "Exam detected → Focus Mode activated → 7 distractions blocked",
+    "student_context": {
+        "name": "Jyoti",
+        "next_class": "Data Structures in 22 min",
+        "location": "Library, Block B",
+        "stress_level": "moderate",
+    },
+    "twin_prediction": "Twin predicts high stress window 2–4 PM",
+    "weekly_pattern": {
+        "Monday": {
+            "7": "sleep", "8": "commute", "9": "class", "10": "class",
+            "11": "class", "13": "focus", "14": "focus", "22": "sleep", "23": "sleep",
+        },
+        "Tuesday": {
+            "7": "sleep", "8": "commute", "9": "class", "10": "class",
+            "14": "hostel", "15": "hostel", "22": "sleep", "23": "sleep",
+        },
+        "Wednesday": {
+            "7": "sleep", "8": "commute", "10": "class", "11": "class",
+            "13": "focus", "14": "focus", "22": "sleep",
+        },
+    },
+    "twin": {
+        "productivity_score": 74,
+        "shield_effectiveness": 87,
+        "peak_focus": "9 AM – 11 AM",
+        "stress_level": "moderate",
+        "top_insight": "Twin predicts high stress window 2–4 PM",
+        "introvert_score": 68,
+        "data_points": 47,
+        "insights": [
+            "Twin predicts high stress window 2–4 PM",
+            "Focus peaks 9–11 AM — exam shield is active",
+            "87% of distractions blocked this session",
+        ],
+    },
+    "demo_mode": True,
+}
 
 
 def _read_json(path: Path):
@@ -99,7 +149,7 @@ def _build_status() -> dict:
         if day and hour is not None and mode:
             weekly_pattern.setdefault(day, {})[str(hour)] = mode
 
-    return {
+    _status = {
         "current_mode": current_mode,
         "held_count": held_count,
         "passed_count": passed_count,
@@ -111,6 +161,17 @@ def _build_status() -> dict:
         "timestamp": datetime.now().strftime("%H:%M:%S"),
         "twin": _safe_twin_card(),
     }
+    with _demo_lock:
+        if _demo_active:
+            _status.update(_DEMO_OVERLAY)
+            today_pfx = datetime.now().strftime("%Y-%m-%dT")
+            _status["recent_log"] = [
+                {"timestamp": today_pfx + "07:15:00", "mode": "hostel"},
+                {"timestamp": today_pfx + "08:20:00", "mode": "commute"},
+                {"timestamp": today_pfx + "09:05:00", "mode": "focus"},
+            ]
+            _status["timestamp"] = datetime.now().strftime("%H:%M:%S")
+    return _status
 
 
 @app.route("/api/status")
@@ -121,6 +182,22 @@ def api_status():
 @app.route("/api/twin")
 def api_twin():
     return jsonify(_safe_twin_card())
+
+
+@app.route("/demo")
+def set_demo():
+    global _demo_active
+    with _demo_lock:
+        _demo_active = True
+    return redirect("/")
+
+
+@app.route("/live")
+def set_live():
+    global _demo_active
+    with _demo_lock:
+        _demo_active = False
+    return redirect("/")
 
 
 # ── Embedded single-page dashboard ─────────────────────────────────────
@@ -158,11 +235,18 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
   backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px)
 }
 .topbar-left{display:flex;align-items:center;gap:10px}
-.brand{font-weight:700;font-size:18px;letter-spacing:-.3px;color:var(--text-1)}
+.brand{font-weight:800;font-size:20px;letter-spacing:-.4px;color:var(--text-1)}
+.topbar-sep{color:var(--text-3);font-weight:300;font-size:18px;margin:0 2px}
 .badge-preview{
-  background:#E6F1FB;color:#0C447C;border-radius:12px;
-  font-size:11px;padding:3px 10px;font-weight:600;letter-spacing:.02em;
+  background:#0C447C;color:#E6F1FB;border-radius:12px;
+  font-size:12px;padding:4px 12px;font-weight:700;letter-spacing:.02em;
   white-space:nowrap
+}
+.demo-chip{
+  font-size:10px;font-weight:800;letter-spacing:.08em;
+  padding:2px 9px;border-radius:10px;
+  background:#FAEEDA;color:#92400E;
+  text-transform:uppercase;display:none
 }
 .topbar-right{display:flex;align-items:center;gap:14px}
 .clock{font-size:16px;font-weight:700;font-variant-numeric:tabular-nums;
@@ -170,10 +254,14 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
 .hb-label{font-size:12px;color:var(--text-2)}
 .pulse{
   width:9px;height:9px;background:#22C55E;border-radius:50%;
-  box-shadow:0 0 0 2px rgba(34,197,94,.25);
-  animation:pulse 2.2s ease-in-out infinite
+  flex-shrink:0;
+  animation:pulse 2s ease-in-out infinite
 }
-@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.35;transform:scale(.65)}}
+@keyframes pulse{
+  0%{transform:scale(.9);box-shadow:0 0 0 0 rgba(34,197,94,.6)}
+  70%{transform:scale(1.1);box-shadow:0 0 0 9px rgba(34,197,94,0)}
+  100%{transform:scale(.9);box-shadow:0 0 0 0 rgba(34,197,94,0)}
+}
 
 /* ── LAYOUT ── */
 .main{max-width:1320px;margin:0 auto;padding:24px 28px;display:flex;flex-direction:column;gap:20px}
@@ -329,6 +417,7 @@ strong{font-weight:700}
 .main>*:nth-child(4){animation-delay:.2s}
 .main>*:nth-child(5){animation-delay:.25s}
 .main>*:nth-child(6){animation-delay:.3s}
+.main>*:nth-child(7){animation-delay:.35s}
 
 /* ── DIGITAL TWIN ── */
 .twin-wrap{
@@ -375,6 +464,61 @@ strong{font-weight:700}
 .stress-high    {background:#FEE2E2;color:#991B1B}
 .twin-footer{margin-top:10px;font-size:11px;color:var(--text-3)}
 @media(max-width:680px){.twin-layout{grid-template-columns:1fr}}
+
+/* ── AI DECISION BANNER ── */
+.ai-banner{
+  background:linear-gradient(135deg,#0B1622 0%,#162032 100%);
+  border-radius:var(--radius);padding:24px 28px;
+  border:1px solid #1E3A52;
+  box-shadow:0 4px 28px rgba(0,0,0,.28);
+  display:none
+}
+.ai-banner-hdr{display:flex;align-items:center;gap:12px;margin-bottom:18px}
+.ai-tag{
+  font-size:11px;font-weight:800;letter-spacing:.14em;
+  text-transform:uppercase;color:#60A5FA
+}
+.ai-live{display:flex;align-items:center;gap:5px;font-size:11px;font-weight:700;color:#4ADE80}
+.ai-live-dot{
+  width:7px;height:7px;background:#4ADE80;border-radius:50%;
+  animation:pulse 1.6s ease-in-out infinite
+}
+.ai-chain{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:18px}
+.ai-step{
+  padding:10px 20px;border-radius:10px;
+  font-size:15px;font-weight:700;letter-spacing:-.1px;
+  background:rgba(255,255,255,.06);
+  border:1px solid rgba(255,255,255,.1);
+  color:#CBD5E1
+}
+.ai-step.final{
+  background:rgba(74,222,128,.1);
+  border-color:rgba(74,222,128,.3);
+  color:#4ADE80
+}
+.ai-sep{color:#334155;font-size:20px;user-select:none;padding:0 2px}
+.ai-pred{
+  border-top:1px solid rgba(255,255,255,.07);
+  padding-top:14px;
+  display:flex;align-items:center;gap:9px;
+  font-size:13px;color:#94A3B8
+}
+.ai-pred-icon{font-size:16px}
+
+/* ── STUDENT CONTEXT CARD ── */
+.ctx-items{display:flex;flex-direction:column;gap:11px;padding-top:4px}
+.ctx-row{display:flex;flex-direction:column;gap:2px}
+.ctx-lbl{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--text-3)}
+.ctx-val{font-size:13px;font-weight:600;color:var(--text-1);line-height:1.3}
+.ctx-stress-moderate{color:#D97706}
+.ctx-stress-high{color:#DC2626}
+.ctx-stress-low{color:#16A34A}
+
+/* ── 5-COL STAT GRID (demo mode) ── */
+.stat-grid.has-ctx{grid-template-columns:repeat(5,1fr)}
+@media(max-width:1100px){.stat-grid.has-ctx{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:960px){.stat-grid.has-ctx{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:680px){.stat-grid.has-ctx{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
@@ -383,7 +527,9 @@ strong{font-weight:700}
 <header class="topbar">
   <div class="topbar-left">
     <span class="brand">LifeOS Campus</span>
+    <span class="topbar-sep">&mdash;</span>
     <span class="badge-preview">Galaxy AI Preview</span>
+    <span class="demo-chip" id="demo-chip">Demo</span>
   </div>
   <div class="topbar-right">
     <span class="clock" id="js-clock">--:--:--</span>
@@ -394,36 +540,68 @@ strong{font-weight:700}
 
 <div class="main">
 
+  <!-- AI DECISION BANNER (demo mode only) -->
+  <div class="ai-banner" id="ai-banner">
+    <div class="ai-banner-hdr">
+      <span class="ai-tag">AI Decision</span>
+      <span class="ai-live"><span class="ai-live-dot"></span>&nbsp;LIVE</span>
+    </div>
+    <div class="ai-chain" id="ai-chain"></div>
+    <div class="ai-pred">
+      <span class="ai-pred-icon">&#x1F916;</span>
+      <span id="ai-pred-text">Loading prediction&hellip;</span>
+    </div>
+  </div>
+
   <!-- ROW 1 — Stat cards -->
   <div>
     <div class="section-label">System Status</div>
-    <div class="stat-grid">
+    <div class="stat-grid" id="stat-grid">
 
       <!-- Mode card -->
       <div class="card mode-card" id="mode-card">
         <div class="card-label">Current Mode</div>
-        <div class="mode-big" id="mode-value">—</div>
+        <div class="mode-big" id="mode-value">&mdash;</div>
         <div><span class="pill pm-unknown" id="mode-pill">loading</span></div>
+      </div>
+
+      <!-- Student Context (demo only) -->
+      <div class="card" id="ctx-card" style="display:none">
+        <div class="card-label">Student Context</div>
+        <div class="ctx-items">
+          <div class="ctx-row">
+            <span class="ctx-lbl">Next Class</span>
+            <span class="ctx-val" id="ctx-class">&mdash;</span>
+          </div>
+          <div class="ctx-row">
+            <span class="ctx-lbl">Location</span>
+            <span class="ctx-val" id="ctx-loc">&mdash;</span>
+          </div>
+          <div class="ctx-row">
+            <span class="ctx-lbl">Stress Level</span>
+            <span class="ctx-val" id="ctx-stress">&mdash;</span>
+          </div>
+        </div>
       </div>
 
       <!-- Held -->
       <div class="card">
         <div class="card-label">Notifications Held</div>
-        <div class="card-value" id="held-count">—</div>
+        <div class="card-value" id="held-count">&mdash;</div>
         <div class="card-sub">queued for digest</div>
       </div>
 
       <!-- Passed -->
       <div class="card">
         <div class="card-label">Notifications Passed</div>
-        <div class="card-value" id="passed-count">—</div>
+        <div class="card-value" id="passed-count">&mdash;</div>
         <div class="card-sub">urgent delivered</div>
       </div>
 
       <!-- Pattern -->
       <div class="card">
         <div class="card-label">Pattern Days Learned</div>
-        <div class="card-value" id="pattern-days">—</div>
+        <div class="card-value" id="pattern-days">&mdash;</div>
         <div class="card-sub">days of behavior data</div>
       </div>
 
@@ -433,12 +611,12 @@ strong{font-weight:700}
   <!-- ROW 2 — Two panels -->
   <div class="panel-row">
     <div class="panel">
-      <div class="panel-title">Today’s Mode Timeline</div>
-      <div id="timeline-body"><span class="empty">Loading…</span></div>
+      <div class="panel-title">Today&rsquo;s Mode Timeline</div>
+      <div id="timeline-body"><span class="empty">Loading&hellip;</span></div>
     </div>
     <div class="panel">
       <div class="panel-title">Notification Breakdown</div>
-      <div id="notif-body"><span class="empty">Loading…</span></div>
+      <div id="notif-body"><span class="empty">Loading&hellip;</span></div>
     </div>
   </div>
 
@@ -454,7 +632,7 @@ strong{font-weight:700}
       <div class="lg-item"><div class="lg-dot" style="background:#BA7517"></div>Focus</div>
       <div class="lg-item"><div class="lg-dot" style="background:#639922"></div>Hostel</div>
       <div class="lg-item"><div class="lg-dot" style="background:#888780"></div>Sleep</div>
-      <div class="lg-item"><div class="lg-dot" style="background:#EDEDED;border:1px solid #ccc"></div>Empty</div>
+      <div class="lg-item"><div class="lg-dot" style="background:#EDEDED;border:1px solid #ccc"></div>No data</div>
     </div>
     <div class="pattern-note" id="pg-note"></div>
   </div>
@@ -462,7 +640,7 @@ strong{font-weight:700}
   <!-- ROW 4 — Live log -->
   <div class="log-wrap">
     <div class="panel-title">Live Agent Log</div>
-    <div id="log-body"><span class="empty">Loading…</span></div>
+    <div id="log-body"><span class="empty">Loading&hellip;</span></div>
   </div>
 
   <!-- ROW 5 — Digital Twin -->
@@ -474,30 +652,30 @@ strong{font-weight:700}
     <div class="twin-layout">
       <div class="twin-metrics">
         <div class="twin-metric">
-          <div class="twin-metric-val" id="tw-prod">—</div>
+          <div class="twin-metric-val" id="tw-prod">&mdash;</div>
           <div class="twin-metric-lbl">Productivity /100</div>
         </div>
         <div class="twin-metric">
-          <div class="twin-metric-val" id="tw-shield">—</div>
+          <div class="twin-metric-val" id="tw-shield">&mdash;</div>
           <div class="twin-metric-lbl">Shield %</div>
         </div>
         <div class="twin-metric">
-          <div class="twin-metric-val" id="tw-intro">—</div>
+          <div class="twin-metric-val" id="tw-intro">&mdash;</div>
           <div class="twin-metric-lbl">Introvert /100</div>
         </div>
         <div class="twin-metric">
-          <div class="twin-metric-val" id="tw-dp">—</div>
+          <div class="twin-metric-val" id="tw-dp">&mdash;</div>
           <div class="twin-metric-lbl">Data Points</div>
         </div>
       </div>
       <div class="twin-insights" id="tw-insights">
-        <span class="empty">Loading twin profile…</span>
+        <span class="empty">Loading twin profile&hellip;</span>
       </div>
     </div>
     <div class="twin-footer">Peak focus window: <strong id="tw-peak">TBD</strong></div>
   </div>
 
-  <div class="footer">Updated&nbsp;<span id="updated-at">—</span></div>
+  <div class="footer">Updated&nbsp;<span id="updated-at">&mdash;</span></div>
 
 </div><!-- /main -->
 
@@ -603,7 +781,6 @@ function renderBreakdown(data){
 }
 
 /* Pattern grid */
-let pgBuilt = false;
 function renderPatternGrid(wp){
   const grid = document.getElementById('pg');
   const note = document.getElementById('pg-note');
@@ -632,15 +809,20 @@ function renderPatternGrid(wp){
       cell.className='pg-cell';
       const mode = hasData && wp[day] && wp[day][String(h)];
       if(mode) cell.classList.add('mc-'+mode);
-      cell.title = mode ? `${day} ${h}:00 — ${mode}` : `${day} ${h}:00`;
+      cell.title = mode ? `${day} ${h}:00 — ${mode}` : `${day} ${h}:00 — no data yet`;
       grid.appendChild(cell);
     });
   });
 
-  note.textContent = hasData
-    ? ''
-    : 'Run demo history injection to populate — python phase3_demo.py';
-  pgBuilt=true;
+  if(hasData){
+    const daysLearned = Object.keys(wp).length;
+    const remaining = 7 - daysLearned;
+    note.textContent = remaining > 0
+      ? `${daysLearned} day${daysLearned>1?'s':''} learned — ${remaining} day${remaining>1?'s':''} still collecting…`
+      : '';
+  } else {
+    note.textContent = 'Run demo history injection to populate — python phase3_demo.py';
+  }
 }
 
 /* Log */
@@ -691,6 +873,49 @@ function renderTwin(twin){
   ).join('');
 }
 
+/* Demo overlay renderer */
+function renderDemo(data){
+  const isDemo = !!data.demo_mode;
+
+  /* header chip */
+  const chip = document.getElementById('demo-chip');
+  if(chip) chip.style.display = isDemo ? 'inline-block' : 'none';
+
+  /* AI Decision Banner */
+  const banner = document.getElementById('ai-banner');
+  if(isDemo && data.ai_decision){
+    banner.style.display = '';
+    const steps = data.ai_decision.split('→').map(s=>s.trim());
+    document.getElementById('ai-chain').innerHTML = steps.map((s,i)=>{
+      const last = i===steps.length-1;
+      const sep  = i<steps.length-1 ? '<span class="ai-sep">→</span>' : '';
+      return `<span class="ai-step${last?' final':''}">${s}</span>${sep}`;
+    }).join('');
+    const predEl = document.getElementById('ai-pred-text');
+    if(predEl && data.twin_prediction) predEl.textContent = data.twin_prediction;
+  } else {
+    if(banner) banner.style.display = 'none';
+  }
+
+  /* Student Context card */
+  const ctxCard = document.getElementById('ctx-card');
+  const grid    = document.getElementById('stat-grid');
+  if(isDemo && data.student_context){
+    ctxCard.style.display = '';
+    grid.classList.add('has-ctx');
+    const ctx = data.student_context;
+    document.getElementById('ctx-class').textContent = ctx.next_class || '—';
+    document.getElementById('ctx-loc').textContent   = ctx.location  || '—';
+    const stEl = document.getElementById('ctx-stress');
+    const sl   = ctx.stress_level || '';
+    stEl.textContent = sl.charAt(0).toUpperCase()+sl.slice(1);
+    stEl.className   = `ctx-val ctx-stress-${sl}`;
+  } else {
+    if(ctxCard) ctxCard.style.display = 'none';
+    if(grid)    grid.classList.remove('has-ctx');
+  }
+}
+
 /* Main refresh */
 async function refresh(){
   let data;
@@ -725,6 +950,7 @@ async function refresh(){
   renderPatternGrid(data.weekly_pattern);
   renderLog(data.recent_log);
   renderTwin(data.twin);
+  renderDemo(data);
 
   document.getElementById('updated-at').textContent = data.timestamp||'--:--:--';
 }

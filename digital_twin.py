@@ -250,6 +250,10 @@ class DigitalTwin:
         prod = p["productivity"]
         ss   = p["stress_signals"]
         nh   = p["notification_health"]
+        counterfactual = (
+            "Counterfactual: without your attention shield, you would have seen "
+            f"about {nh['avg_held_per_day']} extra low-priority notifications per day."
+        )
 
         lines = [
             "LifeOS — Your Digital Twin Report",
@@ -269,6 +273,8 @@ class DigitalTwin:
             lines.append(f"{i}. {ins}")
 
         lines += [
+            "",
+            counterfactual,
             "",
             "━" * 20,
             f"Your Digital Twin has {p['data_points']} observations.",
