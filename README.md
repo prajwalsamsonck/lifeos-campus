@@ -123,11 +123,24 @@ Expected result:
 ## 11. Screenshots and GIF Placeholders
 
 Add assets here before final submission:
-- `assets/screenshots/hero-dashboard.png`
+- `assets/screenshots/main-dashboard.png`
 - `assets/screenshots/digital-twin.png`
 - `assets/screenshots/agent-reasoning.png`
 - `assets/screenshots/counterfactual-impact.png`
-- `assets/gif/judge-demo-walkthrough.gif`
+- `assets/screenshots/behavioral-dna.png`
+- `assets/screenshots/judge-demo.png`
+- `assets/screenshots/judge-demo.gif`
+
+## Generate Demo Assets
+
+```bash
+python scripts/capture_dashboard_assets.py
+```
+
+Notes:
+- Start dashboard first in another terminal: `python dashboard.py`
+- Script saves PNG and GIF assets into `assets/screenshots/`
+- GIF captures a short judge-flow walkthrough (~15–30s)
 
 ## 12. API Endpoints
 
