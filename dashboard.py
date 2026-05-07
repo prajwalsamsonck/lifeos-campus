@@ -519,6 +519,67 @@ strong{font-weight:700}
 @media(max-width:1100px){.stat-grid.has-ctx{grid-template-columns:repeat(3,1fr)}}
 @media(max-width:960px){.stat-grid.has-ctx{grid-template-columns:repeat(2,1fr)}}
 @media(max-width:680px){.stat-grid.has-ctx{grid-template-columns:1fr}}
+
+/* ── JUDGE DEMO MODE ── */
+.judge-shell{
+  background:linear-gradient(135deg,#F7FAFD 0%,#EEF3F9 100%);
+  border:1px solid #D7E3F0;
+  border-radius:16px;
+  padding:14px 16px;
+  box-shadow:0 4px 20px rgba(12,68,124,.08);
+}
+.judge-row{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.judge-title{font-size:14px;font-weight:800;color:#0F2740;letter-spacing:.02em}
+.judge-step{font-size:12px;font-weight:700;color:#4B6682}
+.judge-msg{margin-top:10px;font-size:13px;color:#334155;min-height:20px}
+.judge-actions{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.judge-btn{
+  border:none;border-radius:10px;padding:9px 14px;
+  font-size:12px;font-weight:700;letter-spacing:.02em;cursor:pointer;
+  transition:transform .2s ease,box-shadow .2s ease,opacity .2s ease;
+}
+.judge-btn:disabled{opacity:.5;cursor:not-allowed}
+.judge-btn:hover:not(:disabled){transform:translateY(-1px)}
+.judge-launch{
+  background:linear-gradient(135deg,#0C447C 0%,#1B6AB4 100%);
+  color:#F8FBFF;box-shadow:0 8px 24px rgba(12,68,124,.26)
+}
+.judge-subtle{background:#E6EDF6;color:#173B5E}
+.judge-dim{
+  position:fixed;inset:0;background:rgba(4,12,20,.45);z-index:1200;
+  opacity:0;pointer-events:none;transition:opacity .35s ease;
+}
+.judge-dim.active{opacity:1}
+.judge-spotlight{
+  position:relative;z-index:1210 !important;
+  border-radius:14px;
+  box-shadow:0 0 0 3px rgba(96,165,250,.95),0 0 28px rgba(96,165,250,.45);
+  transition:box-shadow .35s ease,transform .35s ease;
+  transform:translateY(-1px);
+}
+.judge-summary{
+  position:fixed;left:50%;top:50%;transform:translate(-50%,-50%) scale(.96);
+  width:min(560px,92vw);z-index:1250;
+  background:linear-gradient(150deg,#0C1C2E 0%,#1A2D44 100%);
+  border:1px solid rgba(143,191,255,.35);border-radius:18px;
+  padding:24px;color:#EAF2FB;
+  box-shadow:0 18px 50px rgba(0,0,0,.42);
+  opacity:0;pointer-events:none;transition:opacity .32s ease,transform .32s ease;
+}
+.judge-summary.active{opacity:1;pointer-events:auto;transform:translate(-50%,-50%) scale(1)}
+.judge-summary-title{font-size:24px;font-weight:800;letter-spacing:-.02em;line-height:1.2}
+.judge-summary-sub{margin-top:6px;color:#A7C6E8;font-size:13px}
+.judge-kpi-grid{
+  display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:16px
+}
+.judge-kpi{
+  background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.13);
+  border-radius:12px;padding:12px
+}
+.judge-kpi strong{display:block;font-size:18px;color:#F8FCFF}
+.judge-kpi span{font-size:12px;color:#A7C6E8}
+.judge-summary-actions{margin-top:14px;display:flex;justify-content:flex-end}
+@media(max-width:680px){.judge-kpi-grid{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
@@ -531,7 +592,7 @@ strong{font-weight:700}
     <span class="badge-preview">Galaxy AI Preview</span>
     <span class="demo-chip" id="demo-chip">Demo</span>
   </div>
-  <div class="topbar-right">
+  <div class="topbar-right" id="heartbeat-status-card">
     <span class="clock" id="js-clock">--:--:--</span>
     <span class="hb-label">Heartbeat agent running</span>
     <span class="pulse"></span>
@@ -551,6 +612,22 @@ strong{font-weight:700}
       <span class="ai-pred-icon">&#x1F916;</span>
       <span id="ai-pred-text">Loading prediction&hellip;</span>
     </div>
+  </div>
+
+  <div class="judge-shell" id="judge-shell">
+    <div class="judge-row">
+      <div>
+        <div class="judge-title">Judge Demo Mode</div>
+        <div class="judge-step" id="judge-step">Ready for guided walkthrough</div>
+      </div>
+      <div class="judge-actions">
+        <button class="judge-btn judge-launch" id="judge-start">Launch Judge Demo</button>
+        <button class="judge-btn judge-subtle" id="judge-pause">Pause</button>
+        <button class="judge-btn judge-subtle" id="judge-reset">Reset</button>
+        <button class="judge-btn judge-subtle" id="judge-skip">Skip to Summary</button>
+      </div>
+    </div>
+    <div class="judge-msg" id="judge-msg">Press Launch Judge Demo for a 60-90 second cinematic tour.</div>
   </div>
 
   <!-- ROW 1 — Stat cards -->
@@ -585,14 +662,14 @@ strong{font-weight:700}
       </div>
 
       <!-- Held -->
-      <div class="card">
+      <div class="card" id="notif-held-card">
         <div class="card-label">Notifications Held</div>
         <div class="card-value" id="held-count">&mdash;</div>
         <div class="card-sub">queued for digest</div>
       </div>
 
       <!-- Passed -->
-      <div class="card">
+      <div class="card" id="notif-passed-card">
         <div class="card-label">Notifications Passed</div>
         <div class="card-value" id="passed-count">&mdash;</div>
         <div class="card-sub">urgent delivered</div>
@@ -644,7 +721,7 @@ strong{font-weight:700}
   </div>
 
   <!-- ROW 5 — Digital Twin -->
-  <div class="twin-wrap">
+  <div class="twin-wrap" id="twin-wrap">
     <div class="twin-header">
       <div class="panel-title" style="padding:0;margin:0;border:0">Your Digital Twin</div>
       <span class="tw-stress-badge stress-low" id="tw-badge">low stress</span>
@@ -678,6 +755,21 @@ strong{font-weight:700}
   <div class="footer">Updated&nbsp;<span id="updated-at">&mdash;</span></div>
 
 </div><!-- /main -->
+
+<div class="judge-dim" id="judge-dim"></div>
+<div class="judge-summary" id="judge-summary">
+  <div class="judge-summary-title">LifeOS prevented distraction before it happened.</div>
+  <div class="judge-summary-sub">Judge Demo Mode complete</div>
+  <div class="judge-kpi-grid">
+    <div class="judge-kpi"><strong>87% twin match</strong><span>Prediction aligned with behavior trajectory</span></div>
+    <div class="judge-kpi"><strong>7 distractions blocked</strong><span>Low-value interrupts held automatically</span></div>
+    <div class="judge-kpi"><strong>1 proactive alert sent</strong><span>Timely nudge dispatched via Telegram</span></div>
+    <div class="judge-kpi"><strong>Focus session protected</strong><span>Academic window stayed interruption-free</span></div>
+  </div>
+  <div class="judge-summary-actions">
+    <button class="judge-btn judge-subtle" id="judge-summary-close">Close Summary</button>
+  </div>
+</div>
 
 <script>
 const DAYS_FULL = ['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday'];
@@ -916,6 +1008,238 @@ function renderDemo(data){
   }
 }
 
+/* Judge Demo Mode */
+const JUDGE_STAGE_MS = 7000;
+const JUDGE_STAGES = [
+  { title:'Baseline',             text:'Student context initialized',                                targets:[] },
+  { title:'Exam Detection',       text:'Upcoming exam detected in 18 hours',                         targets:[['#ctx-card']] },
+  { title:'Stress Forecast',      text:'Digital Twin predicts elevated stress window',               targets:[['#twin-forecast-card','#twin-wrap','#tw-insights']] },
+  { title:'Agent Reasoning',      text:'Agent evaluates context and selects intervention',           targets:[['#agent-reasoning-card','#ai-banner']] },
+  { title:'Focus Activation',     text:'Focus Mode activated automatically',                          targets:[['#mode-card']] },
+  { title:'Notification Filtering',text:'7 distractions blocked, 3 priority alerts delivered',       targets:[['#notif-held-card','#held-count'],['#notif-passed-card','#passed-count']] },
+  { title:'Telegram Action',      text:'Telegram alert dispatched to student',                        targets:[['#telegram-card','#status-card','#heartbeat-status-card','.topbar-right']] },
+  { title:'Impact Summary',       text:'LifeOS prevented distraction before it happened.',            targets:[], summary:true }
+];
+
+const JUDGE_STATE = {
+  running: false,
+  paused: false,
+  idx: -1,
+  timer: null,
+  stepStartedAt: 0,
+  remaining: JUDGE_STAGE_MS,
+  activeEls: [],
+  forcedVisibleEls: [],
+};
+
+function judgeSafeQuery(sel){
+  try{return document.querySelector(sel);}catch(_){return null;}
+}
+
+function judgeNearestPanel(el){
+  if(!el) return null;
+  const host = el.closest('.card,.panel,.twin-wrap,.log-wrap,.ai-banner,.topbar-right,.judge-shell');
+  return host || el;
+}
+
+function judgeSetText(id, val){
+  const el = document.getElementById(id);
+  if(el) el.textContent = val;
+}
+
+function judgeSetPauseLabel(){
+  const b = document.getElementById('judge-pause');
+  if(b) b.textContent = JUDGE_STATE.paused ? 'Resume' : 'Pause';
+}
+
+function judgeSetDim(on){
+  const d = document.getElementById('judge-dim');
+  if(!d) return;
+  d.classList.toggle('active', !!on);
+}
+
+function judgeClearHighlights(){
+  JUDGE_STATE.activeEls.forEach(el=>{
+    try{ el.classList.remove('judge-spotlight'); }catch(_){}
+  });
+  JUDGE_STATE.activeEls = [];
+  JUDGE_STATE.forcedVisibleEls.forEach(el=>{
+    try{
+      if(el.dataset.judgePrevDisplay !== undefined){
+        el.style.display = el.dataset.judgePrevDisplay;
+        delete el.dataset.judgePrevDisplay;
+      }
+    }catch(_){}
+  });
+  JUDGE_STATE.forcedVisibleEls = [];
+}
+
+function judgeResolveOneSelectorGroup(group){
+  for(const sel of group){
+    const raw = judgeSafeQuery(sel);
+    if(!raw) continue;
+    const el = judgeNearestPanel(raw);
+    if(!el) continue;
+    if(getComputedStyle(el).display === 'none'){
+      try{
+        el.dataset.judgePrevDisplay = el.style.display || '';
+        el.style.display = '';
+        JUDGE_STATE.forcedVisibleEls.push(el);
+      }catch(_){}
+    }
+    return el;
+  }
+  return null;
+}
+
+function judgeApplyHighlights(stage){
+  judgeClearHighlights();
+  if(!stage || !stage.targets || !stage.targets.length) return;
+  for(const group of stage.targets){
+    const el = judgeResolveOneSelectorGroup(group);
+    if(!el) continue;
+    try{
+      el.classList.add('judge-spotlight');
+      JUDGE_STATE.activeEls.push(el);
+      el.scrollIntoView({behavior:'smooth',block:'center',inline:'nearest'});
+    }catch(_){}
+  }
+}
+
+function judgeShowSummary(show){
+  const card = document.getElementById('judge-summary');
+  if(!card) return;
+  card.classList.toggle('active', !!show);
+}
+
+function judgeClearTimer(){
+  if(JUDGE_STATE.timer){
+    clearTimeout(JUDGE_STATE.timer);
+    JUDGE_STATE.timer = null;
+  }
+}
+
+function judgeUpdateHeader(){
+  if(JUDGE_STATE.idx < 0){
+    judgeSetText('judge-step', 'Ready for guided walkthrough');
+    return;
+  }
+  const n = JUDGE_STATE.idx + 1;
+  judgeSetText('judge-step', `Step ${n} of ${JUDGE_STAGES.length}`);
+}
+
+function judgeAdvance(){
+  if(!JUDGE_STATE.running || JUDGE_STATE.paused) return;
+  const next = JUDGE_STATE.idx + 1;
+  if(next >= JUDGE_STAGES.length){
+    judgeReset({keepMessage:true});
+    return;
+  }
+  JUDGE_STATE.idx = next;
+  const stage = JUDGE_STAGES[next];
+  judgeUpdateHeader();
+  judgeSetText('judge-msg', stage.text || '');
+  judgeApplyHighlights(stage);
+  judgeSetDim(true);
+
+  if(stage.summary){
+    judgeShowSummary(true);
+    JUDGE_STATE.running = false;
+    JUDGE_STATE.paused = false;
+    judgeSetPauseLabel();
+    return;
+  }
+
+  JUDGE_STATE.stepStartedAt = Date.now();
+  JUDGE_STATE.remaining = JUDGE_STAGE_MS;
+  judgeClearTimer();
+  JUDGE_STATE.timer = setTimeout(judgeAdvance, JUDGE_STAGE_MS);
+}
+
+function judgeStart(){
+  try{
+    judgeShowSummary(false);
+    if(!JUDGE_STATE.running){
+      JUDGE_STATE.running = true;
+      JUDGE_STATE.paused = false;
+      JUDGE_STATE.idx = -1;
+      judgeSetPauseLabel();
+      judgeAdvance();
+      return;
+    }
+    if(JUDGE_STATE.paused) judgePauseToggle();
+  }catch(_){}
+}
+
+function judgePauseToggle(){
+  try{
+    if(!JUDGE_STATE.running) return;
+    if(!JUDGE_STATE.paused){
+      JUDGE_STATE.paused = true;
+      const elapsed = Date.now() - JUDGE_STATE.stepStartedAt;
+      JUDGE_STATE.remaining = Math.max(300, JUDGE_STAGE_MS - elapsed);
+      judgeClearTimer();
+      judgeSetPauseLabel();
+      return;
+    }
+    JUDGE_STATE.paused = false;
+    JUDGE_STATE.stepStartedAt = Date.now();
+    judgeClearTimer();
+    JUDGE_STATE.timer = setTimeout(judgeAdvance, JUDGE_STATE.remaining || JUDGE_STAGE_MS);
+    judgeSetPauseLabel();
+  }catch(_){}
+}
+
+function judgeReset(opts){
+  const keepMessage = !!(opts && opts.keepMessage);
+  JUDGE_STATE.running = false;
+  JUDGE_STATE.paused = false;
+  JUDGE_STATE.idx = -1;
+  JUDGE_STATE.remaining = JUDGE_STAGE_MS;
+  judgeClearTimer();
+  judgeClearHighlights();
+  judgeSetDim(false);
+  judgeShowSummary(false);
+  judgeSetPauseLabel();
+  judgeUpdateHeader();
+  if(!keepMessage){
+    judgeSetText('judge-msg','Press Launch Judge Demo for a 60-90 second cinematic tour.');
+  }
+}
+
+function judgeSkipToSummary(){
+  try{
+    JUDGE_STATE.running = true;
+    JUDGE_STATE.paused = false;
+    judgeClearTimer();
+    JUDGE_STATE.idx = JUDGE_STAGES.length - 1;
+    judgeUpdateHeader();
+    judgeClearHighlights();
+    judgeSetDim(true);
+    judgeSetText('judge-msg', JUDGE_STAGES[JUDGE_STAGES.length - 1].text);
+    judgeShowSummary(true);
+    JUDGE_STATE.running = false;
+    judgeSetPauseLabel();
+  }catch(_){}
+}
+
+function initJudgeDemo(){
+  try{
+    const startBtn = document.getElementById('judge-start');
+    const pauseBtn = document.getElementById('judge-pause');
+    const resetBtn = document.getElementById('judge-reset');
+    const skipBtn  = document.getElementById('judge-skip');
+    const closeBtn = document.getElementById('judge-summary-close');
+    if(startBtn) startBtn.addEventListener('click', judgeStart);
+    if(pauseBtn) pauseBtn.addEventListener('click', judgePauseToggle);
+    if(resetBtn) resetBtn.addEventListener('click', ()=>judgeReset({keepMessage:false}));
+    if(skipBtn)  skipBtn.addEventListener('click', judgeSkipToSummary);
+    if(closeBtn) closeBtn.addEventListener('click', ()=>judgeReset({keepMessage:true}));
+    judgeSetPauseLabel();
+    judgeUpdateHeader();
+  }catch(_){}
+}
+
 /* Main refresh */
 async function refresh(){
   let data;
@@ -955,6 +1279,7 @@ async function refresh(){
   document.getElementById('updated-at').textContent = data.timestamp||'--:--:--';
 }
 
+initJudgeDemo();
 refresh();
 setInterval(refresh, 3000);
 </script>
