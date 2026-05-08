@@ -131,6 +131,9 @@ Add assets here before final submission:
 - `assets/screenshots/judge-demo.png`
 - `assets/screenshots/judge-demo.gif`
 
+Live demo video (watch online):  
+[LifeOS Campus Demo Video](https://drive.google.com/file/d/1ojnuuT9ge-s7fGzfitC20jdP-wpMTH8B/view?usp=sharing)
+
 ## Generate Demo Assets
 
 ```bash
