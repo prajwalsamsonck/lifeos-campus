@@ -134,6 +134,11 @@ Add assets here before final submission:
 Live demo video (watch online):  
 [LifeOS Campus Demo Video](https://drive.google.com/file/d/1ojnuuT9ge-s7fGzfitC20jdP-wpMTH8B/view?usp=sharing)
 
+## Submission Files
+
+- AI Disclosure Form: `assets/submission/OpenClaw_AI_Disclosure.docx`
+- Presentation Deck: `assets/submission/LifeOS_Campus.pptx`
+
 ## Generate Demo Assets
 
 ```bash
