@@ -1,0 +1,4 @@
+-r requirements.txt
+Pillow>=10.0,<12
+playwright>=1.50,<2
+pytest>=8.0,<9

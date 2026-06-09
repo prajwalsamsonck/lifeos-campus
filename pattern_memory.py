@@ -4,7 +4,8 @@ from collections import Counter
 from datetime import datetime, timedelta
 from pathlib import Path
 
-PATTERN_FILE = Path("pattern_memory.json")
+BASE_DIR = Path(__file__).resolve().parent
+PATTERN_FILE = BASE_DIR / "pattern_memory.json"
 MAX_ENTRIES = 500
 logger = logging.getLogger(__name__)
 

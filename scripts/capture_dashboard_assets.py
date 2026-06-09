@@ -11,7 +11,7 @@ from playwright.sync_api import sync_playwright
 
 
 BASE_URL = "http://127.0.0.1:5000"
-OUT_DIR = Path("assets/screenshots")
+OUT_DIR = Path(__file__).resolve().parents[1] / "assets" / "screenshots"
 
 
 def _wait_for(page, ms: int = 1300) -> None:

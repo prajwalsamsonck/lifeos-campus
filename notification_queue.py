@@ -5,7 +5,8 @@ from pathlib import Path
 
 from notification_scorer import NotificationScorer
 
-QUEUE_FILE = Path("notif_queue.json")
+BASE_DIR = Path(__file__).resolve().parent
+QUEUE_FILE = BASE_DIR / "notif_queue.json"
 logger = logging.getLogger(__name__)
 _scorer = NotificationScorer()
 

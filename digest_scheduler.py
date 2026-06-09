@@ -12,7 +12,8 @@ logger = logging.getLogger(__name__)
 
 DEMO_MODE = os.getenv("DEMO_MODE", "false").lower() == "true"
 DIGEST_HOURS = [9, 13, 18]
-MEMORY_FILE = Path("lifeos_memory.json")
+BASE_DIR = Path(__file__).resolve().parent
+MEMORY_FILE = BASE_DIR / "lifeos_memory.json"
 
 
 class DigestScheduler:
@@ -28,27 +29,10 @@ class DigestScheduler:
             self.last_digest_hour = current_hour
 
     def force_send_digest(self) -> None:
-        from telegram_bot import send_digest, _TOKEN, _CHAT_ID
+        from telegram_bot import send_digest
 
         digest = self.queue.get_digest()
-
-        if digest["total_held"] == 0 and digest["total_passed"] == 0:
-            import asyncio
-            from telegram import Bot
-
-            async def _empty():
-                async with Bot(_TOKEN) as bot:
-                    await bot.send_message(
-                        chat_id=_CHAT_ID,
-                        text="No notifications held since last digest."
-                    )
-            try:
-                asyncio.run(_empty())
-            except Exception as exc:
-                logger.error("Empty digest send failed: %s", exc)
-        else:
-            send_digest(digest)
-
+        send_digest(digest)
         self._log(digest)
 
     def _log(self, digest: dict) -> None:

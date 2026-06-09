@@ -6,9 +6,10 @@ from pathlib import Path
 
 logger = logging.getLogger(__name__)
 
-MEMORY_FILE  = Path("lifeos_memory.json")
-PATTERN_FILE = Path("pattern_memory.json")
-QUEUE_FILE   = Path("notif_queue.json")
+BASE_DIR = Path(__file__).resolve().parent
+MEMORY_FILE = BASE_DIR / "lifeos_memory.json"
+PATTERN_FILE = BASE_DIR / "pattern_memory.json"
+QUEUE_FILE = BASE_DIR / "notif_queue.json"
 
 
 class DigitalTwin:

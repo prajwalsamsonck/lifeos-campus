@@ -1,4 +1,6 @@
 .env
+.venv/
+venv/
 __pycache__/
 *.pyc
 *.pyo
@@ -6,8 +8,9 @@ __pycache__/
 .DS_Store
 
 # Workspace / cache artifacts
-.claude/
 .pytest_cache/
 .mypy_cache/
 .cache/
+.coverage
+htmlcov/
 *.log

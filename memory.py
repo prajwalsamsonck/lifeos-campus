@@ -3,7 +3,8 @@ import logging
 from datetime import datetime
 from pathlib import Path
 
-MEMORY_FILE = Path("lifeos_memory.json")
+BASE_DIR = Path(__file__).resolve().parent
+MEMORY_FILE = BASE_DIR / "lifeos_memory.json"
 logger = logging.getLogger(__name__)
 
 

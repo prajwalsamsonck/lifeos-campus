@@ -1,164 +1,177 @@
 # LifeOS Campus
 
-LifeOS Campus is a behavioral AI operating layer for students that reduces cognitive overload using context-aware agents, a Digital Twin, and intelligent notification intervention.
+[![CI](https://github.com/prajwalsamsonck/lifeos-campus/actions/workflows/ci.yml/badge.svg)](https://github.com/prajwalsamsonck/lifeos-campus/actions/workflows/ci.yml)
+[![Python 3.10+](https://img.shields.io/badge/python-3.10%2B-3776AB?logo=python&logoColor=white)](https://www.python.org/)
+[![Flask](https://img.shields.io/badge/Flask-dashboard-000000?logo=flask)](https://flask.palletsprojects.com/)
 
-## 1. Problem
+LifeOS Campus is a local-first student attention assistant that combines
+context-aware modes, notification triage, calendar and commute signals, and a
+behavioral Digital Twin. It was built by **Team Pragmatists** for Samsung PRISM
+Clash of the Claws 2026, where the team received a **Special Mention**.
 
-Students face constant cognitive disruption:
-- Notification overload from social and utility apps
-- Fragmented schedules across classes, commute, and deadlines
-- Stress spikes near exams and assignment clusters
-- Context switching that breaks deep-work continuity
-- Delayed or missed high-priority reminders
+![LifeOS Campus dashboard](assets/screenshots/main-dashboard.png)
 
-## 2. Solution
+## What It Does
 
-LifeOS Campus models student context and attention state, then acts proactively:
-- Observes context signals (mode, schedule windows, behavior patterns)
-- Predicts likely stress/focus conditions through a Digital Twin layer
-- Explains why the agent acted (not just what happened)
-- Suppresses low-priority interruptions
-- Surfaces high-priority alerts at the right time
-- Shows counterfactual impact (with vs without intervention)
+- Selects sleep, commute, class, focus, or hostel modes from time and location context.
+- Scores incoming notifications and either delivers or holds them for a digest.
+- Detects exam-heavy weeks and upcoming departure windows.
+- Learns recurring behavior through local pattern memory.
+- Produces Digital Twin productivity, stress, and attention-shield insights.
+- Sends optional alerts and reports through Telegram.
+- Explains decisions through an interactive Flask dashboard and guided judge demo.
 
-## 3. Key Features
+## Demo
 
-- AI Day Management Hero
-- Digital Twin
-- Agent Reasoning
-- Counterfactual Impact
-- Agent Activity Stream
-- Behavioral DNA Heatmap
-- Telegram Alert Layer
-- Judge Demo Mode
-- `/demo` and `/live` modes
+- [Watch the demo video](https://drive.google.com/file/d/1ojnuuT9ge-s7fGzfitC20jdP-wpMTH8B/view?usp=sharing)
+- [View the presentation deck](assets/submission/LifeOS_Campus.pptx)
+- [Open the judge-demo recording](assets/screenshots/judge-demo.gif)
 
-## 4. Architecture
+| Agent reasoning | Digital Twin |
+| --- | --- |
+| ![Agent reasoning](assets/screenshots/agent-reasoning.png) | ![Digital Twin](assets/screenshots/digital-twin.png) |
+
+## Architecture
 
 ```mermaid
-flowchart TD
-    A[Student Context Signals] --> B[LifeOS Context Engine]
-    B --> C[Digital Twin Model]
-    B --> D[Notification Intelligence Layer]
-    C --> E[Agent Reasoning Engine]
-    D --> E
-    E --> F[Action Decision]
-    F --> G[Suppress Low-priority Notifications]
-    F --> H[Allow Important Alerts]
-    F --> I[Telegram Reminder Dispatch]
-    C --> J[Behavioral DNA Heatmap]
-    E --> K[Counterfactual Impact]
-    K --> L[Dashboard plus Judge Demo]
+flowchart LR
+    A["Context signals<br/>time, zone, calendar"] --> B["Mode engine"]
+    A --> C["Campus agent"]
+    B --> D["Notification scorer"]
+    D --> E["Priority queue"]
+    E --> F["Instant alert or digest"]
+    C --> G["Exam and commute skills"]
+    B --> H["Pattern memory"]
+    H --> I["Digital Twin"]
+    I --> J["Insights and forecasts"]
+    F --> K["Telegram"]
+    G --> K
+    B --> L["Flask dashboard"]
+    I --> L
 ```
 
-## 5. Privacy-first On-device Digital Twin
+The prototype is deliberately local-first. Behavioral events are stored in
+JSON files beside the application, while external services receive only the
+alert payloads needed for the demo.
 
-LifeOS is designed to model behavior locally first.  
-For a production-grade version:
-- Sensitive raw behavior traces should stay on-device by default
-- Cloud channels should receive only minimal alert payloads
-- Full personal history should not be transmitted for routine reminders
-- Privacy-preserving sync or federated learning can be used for future cross-device intelligence
+## Quick Start
 
-This hackathon prototype demonstrates decision logic using local/simulated dashboard data and selective Telegram notifications.
+Requirements:
 
-## 6. Real vs Simulated (Hackathon Disclosure)
+- Python 3.10 or newer
+- Git LFS, if you want to retrieve the large local video asset
 
-- **Real in this prototype**
-  - Local Flask dashboard routing and rendering
-  - Notification scoring/queueing flow
-  - Mode/context memory pipeline
-  - Telegram dispatch integration path
-- **Simulated in this prototype**
-  - Some dashboard overlays and demo narrative signals
-  - Some judge-demo event stream entries
-  - Twin confidence/impact storytelling metrics for presentation clarity
+```bash
+git clone https://github.com/prajwalsamsonck/lifeos-campus.git
+cd lifeos-campus
+python -m venv .venv
+```
 
-## 7. Judge Demo Reliability
-
-Judge Demo is resilient by design:
-- Launch button is bound in UI (`judge-start`)
-- Tour targets include hero, decision banner, reasoning, counterfactual, twin, notifications, status
-- Missing targets are safely skipped
-- Console warnings are emitted for missing targets
-- Tour continues to next valid step without crashing
-
-## 8. How to Run
+Activate the environment:
 
 ```powershell
-cd "C:\Users\jyoti\OneDrive\Desktop\lifeos-campus"
+# Windows
+.\.venv\Scripts\Activate.ps1
+```
+
+```bash
+# macOS or Linux
+source .venv/bin/activate
+```
+
+Install and launch:
+
+```bash
 python -m pip install -r requirements.txt
 python dashboard.py
 ```
 
 Open:
-- [Dashboard](http://localhost:5000/)
-- [Demo Mode](http://localhost:5000/demo)
-- [Live Mode](http://localhost:5000/live)
 
-## 9. Stability Verification
+- Dashboard: <http://127.0.0.1:5000/>
+- Demo data overlay: <http://127.0.0.1:5000/demo>
+- Live local data: <http://127.0.0.1:5000/live>
 
-Lightweight route smoke check script:
+The dashboard works without API credentials by using the included demo data.
 
-```powershell
-python scripts/dashboard_route_check.py
+## Optional Integrations
+
+Copy `.env.example` to `.env` and add only the services you want to use:
+
+```env
+TELEGRAM_TOKEN=your_bot_token_here
+TELEGRAM_CHAT_ID=your_chat_id_here
+DEMO_MODE=true
+DEMO_DIGEST_DELAY=0
+GOOGLE_CALENDAR_KEY=your_google_calendar_api_key_here
+GOOGLE_MAPS_KEY=your_google_maps_api_key_here
 ```
 
-Expected result:
-- `/` returns 200
-- `/demo` returns 200
-- `/live` returns 200
-- `/api/status` returns 200
-- `/api/twin` returns 200
+Telegram credentials enable external alerts. Google credentials are optional;
+the calendar and commute modules fall back to deterministic mock data when they
+are absent or unavailable.
 
-## 10. 60-second Demo Script (Judge Flow)
-
-1. **0s-8s**: Open hero and say: "LifeOS is already managing the student's day autonomously."
-2. **8s-18s**: Highlight Digital Twin and mention stress/focus prediction.
-3. **18s-30s**: Show Agent Reasoning card: Trigger -> Inference -> Action -> Outcome.
-4. **30s-40s**: Show Counterfactual Impact: with vs without LifeOS.
-5. **40s-50s**: Show Activity Stream + notification routing outcomes.
-6. **50s-60s**: Launch Judge Demo and close with "LifeOS prevented distraction before it happened."
-
-## 11. Screenshots and GIF Placeholders
-
-Add assets here before final submission:
-- `assets/screenshots/main-dashboard.png`
-- `assets/screenshots/digital-twin.png`
-- `assets/screenshots/agent-reasoning.png`
-- `assets/screenshots/counterfactual-impact.png`
-- `assets/screenshots/behavioral-dna.png`
-- `assets/screenshots/judge-demo.png`
-- `assets/screenshots/judge-demo.gif`
-
-Live demo video (watch online):  
-[LifeOS Campus Demo Video](https://drive.google.com/file/d/1ojnuuT9ge-s7fGzfitC20jdP-wpMTH8B/view?usp=sharing)
-
-## Submission Files
-
-- AI Disclosure Form: `assets/submission/OpenClaw_AI_Disclosure.docx`
-- Presentation Deck: `assets/submission/LifeOS_Campus.pptx`
-
-## Generate Demo Assets
+## Commands
 
 ```bash
+# Run the continuous context loop
+python agent.py
+
+# Run the complete narrated demo
+python demo_runner.py
+
+# Verify dashboard routes
+python scripts/dashboard_route_check.py
+
+# Run automated tests
+python -m pytest
+```
+
+To regenerate screenshots and the GIF:
+
+```bash
+python -m pip install -r requirements-dev.txt
+python -m playwright install chromium
+python dashboard.py
+# In another terminal:
 python scripts/capture_dashboard_assets.py
 ```
 
-Notes:
-- Start dashboard first in another terminal: `python dashboard.py`
-- Script saves PNG and GIF assets into `assets/screenshots/`
-- GIF captures a short judge-flow walkthrough (~15–30s)
+## Project Structure
 
-## 12. API Endpoints
+```text
+.
+|-- agent.py                    # Continuous agent entry point
+|-- campus_agent.py             # Calendar, commute, exam, and pattern orchestration
+|-- dashboard.py                # Flask API and embedded dashboard UI
+|-- digital_twin.py             # Behavioral profile and insight generation
+|-- notification_scorer.py      # Notification priority model
+|-- notification_queue.py       # Hold/pass-through queue
+|-- pattern_memory.py           # Local behavior learning
+|-- telegram_bot.py             # Optional Telegram delivery
+|-- openclaw_bridge.py          # Command bridge used by the hackathon integration
+|-- assets/                     # Screenshots, deck, disclosure, and video pointer
+|-- scripts/                    # Route verification and asset capture
+`-- tests/                      # Core behavior and route tests
+```
 
-- `GET /` -> Main dashboard
-- `GET /demo` -> Enables demo overlay mode, redirects to `/`
-- `GET /live` -> Disables demo overlay mode, redirects to `/`
-- `GET /api/status` -> Aggregated dashboard state
-- `GET /api/twin` -> Digital Twin card payload
+## Prototype Scope
 
-## 13. Hackathon Note
+The notification flow, mode engine, local memory, Flask routes, Digital Twin
+calculations, and Telegram delivery path are implemented. Some dashboard
+metrics, judge-demo events, and counterfactual values are presentation data,
+not results from a production device study. The `87%` figure shown in the demo
+is a narrative prototype metric rather than a validated scientific benchmark.
 
-LifeOS Campus focuses on explainable intervention, not just visualization.  
-The dashboard is intended to show decision quality, behavioral impact, and user trust in an AI operating layer for student life.
+## Team, Attribution, and Disclosure
+
+LifeOS Campus was created as a team hackathon project by **Team Pragmatists**.
+This repository preserves the original history from
+[`jyotiradityadeb/lifeos-campus`](https://github.com/jyotiradityadeb/lifeos-campus)
+and is maintained here by
+[`prajwalsamsonck`](https://github.com/prajwalsamsonck).
+
+The original submission included required disclosure of assisted development
+tools. That record is retained in
+[`assets/submission/OpenClaw_AI_Disclosure.docx`](assets/submission/OpenClaw_AI_Disclosure.docx).
+See [`NOTICE.md`](NOTICE.md) for provenance and licensing status.

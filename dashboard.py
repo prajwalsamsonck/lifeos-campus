@@ -9,7 +9,7 @@ from digital_twin import DigitalTwin
 
 app = Flask(__name__)
 socketio = SocketIO(app, cors_allowed_origins="*", async_mode="threading")
-BASE_DIR = Path(__file__).parent
+BASE_DIR = Path(__file__).resolve().parent
 
 _demo_lock = threading.Lock()
 _demo_active = False
